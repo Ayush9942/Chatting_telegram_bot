@@ -225,13 +225,12 @@ def home():
     return "Bot is running!"
 
 if __name__ == "__main__":
-    import os
+    import time
 
-bot.remove_webhook()
-import time
-time.sleep(1)   # Wait a second before setting a new webhook
+    bot.remove_webhook()
+    time.sleep(1)
 
-WEBHOOK_URL = f"https://chatting-telegram-bot1.onrender.com/{BOT_API}"
-print(bot.set_webhook(url=WEBHOOK_URL))
+    WEBHOOK_URL = f"https://chatting-telegram-bot1.onrender.com/{BOT_API}"
+    print(bot.set_webhook(url=WEBHOOK_URL))
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))

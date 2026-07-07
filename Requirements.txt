@@ -1,4 +1,4 @@
 pyTelegramBotAPI
 python-dotenv
-python-telegram-bot
 groq
+requests

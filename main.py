@@ -112,6 +112,7 @@ def chatmodal(prompt, user_id, name, username):
 
 @bot.message_handler(commands=["start"])
 def start(message):
+    print("/start command received ")
     bot.reply_to(message, "Hello! i am horikita bot created by @ayush9942 ")
 
 @bot.message_handler(commands=["owner"])
@@ -188,10 +189,15 @@ def handle_user_photo(message):
         bot.reply_to(message, "My cognitive circuits tripped trying to process that image!")
 
 
-@bot.message_handler()
+@bot.message_handler(func=lambda message: True)
 def chat_handler(message):
+    print("Message received:", message.text)
+
     if not is_triggered(message):
+        print("Not triggered")
         return
+
+    print("Triggered")
 
     try:
         bot.send_chat_action(message.chat.id, "typing")
@@ -201,7 +207,7 @@ def chat_handler(message):
         reply = chatmodal(message.text or "", user.id, name, username)
         bot.reply_to(message, reply)
     except Exception as e:
-        print(e)
+        print("ERROR:", e)
         bot.reply_to(message, str(e)[:4096])
 
 
@@ -217,6 +223,7 @@ def webhook():
     print("webhook hit ")
     json_str = request.get_data().decode("utf-8")
     update = telebot.types.Update.de_json(json_str)
+    print(update)
     bot.process_new_updates([update])
     return "OK", 200
 

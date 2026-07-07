@@ -206,4 +206,27 @@ def chat_handler(message):
 
 
 print('bot is running')
-bot.infinity_polling()
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route(f"/{BOT_API}", methods=["POST"])
+def webhook():
+    json_str = request.get_data().decode("utf-8")
+    update = telebot.types.Update.de_json(json_str)
+    bot.process_new_updates([update])
+    return "OK", 200
+
+@app.route("/")
+def home():
+    return "Bot is running!"
+
+if __name__ == "__main__":
+    import os
+
+    bot.remove_webhook()
+
+    WEBHOOK_URL = f"https://chatting-telegram-bot1.onrender.com{BOT_API}"
+    bot.set_webhook(url=WEBHOOK_URL)
+
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))

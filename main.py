@@ -1,5 +1,5 @@
 from groq import Groq
-from config import *
+#from config import *
 import telebot
 import json
 import base64
@@ -206,12 +206,15 @@ def chat_handler(message):
 
 
 print('bot is running')
+
+
 from flask import Flask, request
 
 app = Flask(__name__)
 
 @app.route(f"/{BOT_API}", methods=["POST"])
 def webhook():
+    print("webhook hit ")
     json_str = request.get_data().decode("utf-8")
     update = telebot.types.Update.de_json(json_str)
     bot.process_new_updates([update])
@@ -224,9 +227,11 @@ def home():
 if __name__ == "__main__":
     import os
 
-    bot.remove_webhook()
+bot.remove_webhook()
+import time
+time.sleep(1)   # Wait a second before setting a new webhook
 
-    WEBHOOK_URL = f"https://chatting-telegram-bot1.onrender.com/{BOT_API}"
-    bot.set_webhook(url=WEBHOOK_URL)
+WEBHOOK_URL = f"https://chatting-telegram-bot1.onrender.com/{BOT_API}"
+print(bot.set_webhook(url=WEBHOOK_URL))
 
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))

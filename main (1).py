@@ -5,6 +5,17 @@ import json
 import base64
 import requests
 import random
+from dotenv import load_dotenv
+import os
+
+# Load .env file (works locally)
+load_dotenv()
+
+BOT_API = os.getenv("BOT_API")
+GROQ_KEY = os.getenv("GROQ_KEY")
+
+#print(BOT_API)
+#print(GROQ_KEY)
 
 bot = telebot.TeleBot(BOT_API)
 client = Groq(api_key=GROQ_KEY)
